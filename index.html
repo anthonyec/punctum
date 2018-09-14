@@ -1,0 +1,42 @@
+<style>
+  canvas {
+    outline: 1px solid black;
+  }
+</style>
+
+<canvas id="canvas" width="500" height="500"></canvas>
+
+<script src="lib/points.js"></script>
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  const weights = [
+    { x: 0, y: 0, mass: 100 },
+    { x: 500, y: 500, mass: 900 },
+    { x: 250, y: 250, mass: 100 },
+    { x: 300, y: 100, mass: 200 },
+    { x: 100, y: 300, mass: 800 },
+  ];
+
+  const initialPoint = { x: 250, y: 250 };
+  const pointAffectedByWeights = getMassAveragePoint(weights);
+  const averagePointBetweenWeights = getAveragePoint(weights);
+
+  function drawCircle(ctx, x, y, radius, color = 'black') {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+    ctx.fillStyle = color;
+    ctx.fill();
+  } 
+  
+  weights.forEach((weight) => {
+    const { x, y, mass } = weight;
+    const radius = mass / 10;
+
+    drawCircle(ctx, x, y, radius, 'silver');
+  });
+
+  drawCircle(ctx, pointAffectedByWeights.x, pointAffectedByWeights.y, 5, 'green');
+  drawCircle(ctx, averagePointBetweenWeights.x, averagePointBetweenWeights.y, 5, 'blue');  
+</script>
